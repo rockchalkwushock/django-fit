@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from utils.secrets import FITBIT_KEY, FITBIT_SECRET
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'social_django',
     'fitbit'
 ]
 
@@ -124,3 +126,30 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(
+        os.path.dirname(__file__),
+        'static',
+    ),
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.fitbit.FitbitOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FITBIT_KEY = FITBIT_KEY
+SOCIAL_AUTH_FITBIT_SECRET = FITBIT_SECRET
+SOCIAL_AUTH_FITBIT_SCOPE = [
+    'activity',
+    'heartrate',
+    'profile',
+    'sleep',
+]
+
+LOGIN_URL = 'https://www.fitbit.com/oauth2/authorize'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
