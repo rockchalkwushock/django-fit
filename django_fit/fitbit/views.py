@@ -20,52 +20,39 @@ def get_current_activity(request):
     })
     response = r.json()
     return {
-        'caloriesOut': response['summary']['caloriesOut'],
+        'calories_out': response['summary']['caloriesOut'],
+        'calories_bmr': response['summary']['caloriesBMR'],
         'distance': response['summary']['distances'][0]['distance'],
         'floors': response['summary']['floors'],
+        'heart_rate': [
+            {
+                'calories_out': response['summary']['heartRateZones'][0]['caloriesOut'],
+                'max': response['summary']['heartRateZones'][0]['max'],
+                'min': response['summary']['heartRateZones'][0]['min'],
+                'minutes': response['summary']['heartRateZones'][0]['minutes'],
+                'name': 'Out of Range',
+            },
+            {
+                'calories_out': response['summary']['heartRateZones'][1]['caloriesOut'],
+                'max': response['summary']['heartRateZones'][1]['max'],
+                'min': response['summary']['heartRateZones'][1]['min'],
+                'minutes': response['summary']['heartRateZones'][1]['minutes'],
+                'name': 'Fat burn',
+            },
+            {
+                'calories_out': response['summary']['heartRateZones'][2]['caloriesOut'],
+                'max': response['summary']['heartRateZones'][2]['max'],
+                'min': response['summary']['heartRateZones'][2]['min'],
+                'minutes': response['summary']['heartRateZones'][2]['minutes'],
+                'name': 'Cardio',
+            },
+            {
+                'calories_out': response['summary']['heartRateZones'][3]['caloriesOut'],
+                'max': response['summary']['heartRateZones'][3]['max'],
+                'min': response['summary']['heartRateZones'][3]['min'],
+                'minutes': response['summary']['heartRateZones'][3]['minutes'],
+                'name': 'Peak',
+            }
+        ],
         'steps': response['summary']['steps']
     }
-
-
-# {
-#     'activities': [],
-#     'goals': {
-#         'activeMinutes': 30,
-#         'caloriesOut': 2978,
-#         'distance': 8.05,
-#         'floors': 10,
-#         'steps': 10000
-#     },
-#     'summary': {
-#         'activeScore': -1,
-#         'activityCalories': 365,
-#         'caloriesBMR': 1037,
-#         'caloriesOut': 1363,
-#         'distances': [
-#             {'activity': 'total', 'distance': 2.21},
-#             {'activity': 'tracker', 'distance': 2.21},
-#             {'activity': 'loggedActivities', 'distance': 0},
-#             {'activity': 'veryActive', 'distance': 0},
-#             {'activity': 'moderatelyActive', 'distance': 0},
-#             {'activity': 'lightlyActive', 'distance': 2.21},
-#             {'activity': 'sedentaryActive', 'distance': 0}],
-#         'elevation': 27.43,
-#         'fairlyActiveMinutes': 0,
-#         'floors': 9,
-#         'heartRateZones': [
-#             {'caloriesOut': 537.42096, 'max': 95, 'min': 30,
-#                 'minutes': 299, 'name': 'Out of Range'},
-#             {'caloriesOut': 105.70242, 'max': 133, 'min': 95,
-#                 'minutes': 19, 'name': 'Fat Burn'},
-#             {'caloriesOut': 72.47478, 'max': 161,
-#                 'min': 133, 'minutes': 6, 'name': 'Cardio'},
-#             {'caloriesOut': 0, 'max': 220, 'min': 161, 'minutes': 0, 'name': 'Peak'}
-#         ],
-#         'lightlyActiveMinutes': 67,
-#         'marginalCalories': 232,
-#         'restingHeartRate': 62,
-#         'sedentaryMinutes': 795,
-#         'steps': 2996,
-#         'veryActiveMinutes': 0
-#     }
-# }
