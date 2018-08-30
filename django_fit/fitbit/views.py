@@ -78,6 +78,7 @@ def get_last_week(request):
     calories = []
     distance = []
     floors = []
+    labels = []
     steps = []
     for i in range(7):
         day = today.day - i
@@ -88,15 +89,18 @@ def get_last_week(request):
         calories.append(response['summary']['caloriesOut'])
         distance.append(response['summary']['distances'][0]['distance'])
         floors.append(response['summary']['floors'])
+        labels.append(f'{today.year}-{today.month}-{day}')
         steps.append(response['summary']['steps'])
     calories.reverse()
     distance.reverse()
     floors.reverse()
+    labels.reverse()
     steps.reverse()
     data = {
         'calories': calories,
         'distance': distance,
         'floors': floors,
+        'labels': labels,
         'steps': steps
     }
     return HttpResponse(content=dumps(data))
