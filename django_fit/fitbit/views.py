@@ -100,3 +100,24 @@ def get_last_week(request):
         'steps': steps
     }
     return HttpResponse(content=dumps(data))
+
+
+def get_profile(request):
+    social = request.user.social_auth.get(provider='fitbit')
+    token = social.extra_data['access_token']
+    r = get('https://api.fitbit.com/1/user/-/profile.json', headers={
+        'authorization': f'Bearer {token}'
+    })
+    response = r.json()
+    data = {
+        'age': response['user']['age'],
+        'avatar': response['user']['avatar'],
+        'distance_unit': response['user']['distanceUnit'],
+        'full_name': response['user']['fullName'],
+        'height': response['user']['height'],
+        'height_unit': response['user']['heightUnit'],
+        'username': response['user']['username'],
+        'weight': response['user']['weight'],
+        'weight_unit': response['user']['weightUnit'],
+    }
+    return HttpResponse(content=dumps(data))
