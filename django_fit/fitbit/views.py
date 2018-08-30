@@ -13,7 +13,7 @@ class UserList(viewsets.ModelViewSet):  # new
     serializer_class = UserSerializer
 
 
-def get_current_activity(request):
+def get_today(request):
     today = datetime.now()
     social = request.user.social_auth.get(provider='fitbit')
     token = social.extra_data['access_token']
@@ -68,4 +68,35 @@ def get_current_activity(request):
             'steps': response['summary']['steps']
         }
 
+    return HttpResponse(content=dumps(data))
+
+
+def get_last_week(request):
+    today = datetime.now()
+    social = request.user.social_auth.get(provider='fitbit')
+    token = social.extra_data['access_token']
+    calories = []
+    distance = []
+    floors = []
+    steps = []
+    for i in range(7):
+        day = today.day - i
+        r = get(f'https://api.fitbit.com/1/user/-/activities/date/{today.year}-{today.month}-{day}.json', headers={
+            'authorization': f'Bearer {token}'
+        })
+        response = r.json()
+        calories.append(response['summary']['caloriesOut'])
+        distance.append(response['summary']['distances'][0]['distance'])
+        floors.append(response['summary']['floors'])
+        steps.append(response['summary']['steps'])
+    calories.reverse()
+    distance.reverse()
+    floors.reverse()
+    steps.reverse()
+    data = {
+        'calories': calories,
+        'distance': distance,
+        'floors': floors,
+        'steps': steps
+    }
     return HttpResponse(content=dumps(data))
