@@ -9,7 +9,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: '',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/login/fitbit': {
+        target: 'http://localhost:8000'
+      },
+      '/api/get_today': {
+        target: 'http://localhost:8000'
+      },
+      '/api/get_last_week': {
+        target: 'http://localhost:8000'
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
