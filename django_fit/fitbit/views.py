@@ -21,6 +21,8 @@ def get_today(request):
         'authorization': f'Bearer {token}'
     })
     response = r.json()
+    if response['errors'][0]['message'] == 'Too Many Requests':
+        return HttpResponse(content='Too Many Requests')
     if response['summary'].get('heartRateZones', None):
         data = {
             'calories_out': response['summary']['caloriesOut'],
@@ -87,6 +89,8 @@ def get_last_week(request):
             'authorization': f'Bearer {token}'
         })
         response = r.json()
+        if response['errors'][0]['message'] == 'Too Many Requests':
+            return HttpResponse(content='Too Many Requests')
         calories.append(response['summary']['caloriesOut'])
         distance.append(response['summary']['distances'][0]['distance'])
         floors.append(response['summary']['floors'])
@@ -114,6 +118,8 @@ def get_profile(request):
         'authorization': f'Bearer {token}'
     })
     response = r.json()
+    if response['errors'][0]['message'] == 'Too Many Requests':
+        return HttpResponse(content='Too Many Requests')
     data = {
         'age': response['user']['age'],
         'avatar': response['user']['avatar'],
