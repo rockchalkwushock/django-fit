@@ -3,7 +3,7 @@ from rest_framework import generics, viewsets
 from requests import get
 from json import dumps
 from django.http import HttpResponse
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from .serializers import UserSerializer
 
@@ -81,15 +81,16 @@ def get_last_week(request):
     labels = []
     steps = []
     for i in range(7):
-        day = today.day - i
-        r = get(f'https://api.fitbit.com/1/user/-/activities/date/{today.year}-{today.month}-{day}.json', headers={
+        delta = timedelta(days=i)
+        time = today - delta
+        r = get(f'https://api.fitbit.com/1/user/-/activities/date/{time.year}-{time.month}-{time.day}.json', headers={
             'authorization': f'Bearer {token}'
         })
         response = r.json()
         calories.append(response['summary']['caloriesOut'])
         distance.append(response['summary']['distances'][0]['distance'])
         floors.append(response['summary']['floors'])
-        labels.append(f'{today.year}-{today.month}-{day}')
+        labels.append(f'{time.year}-{time.month}-{time.day}')
         steps.append(response['summary']['steps'])
     calories.reverse()
     distance.reverse()
