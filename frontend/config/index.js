@@ -18,6 +18,9 @@ module.exports = {
       },
       '/api/get_last_week': {
         target: 'http://localhost:8000'
+      },
+      '/api/get_profile': {
+        target: 'http://localhost:8000'
       }
     },
 
