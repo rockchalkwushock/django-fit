@@ -9,6 +9,9 @@
   {% load static %}
 
   <link rel="stylesheet" type="text/css" href="{% static 'fitbit/css/app.css' %}" />
+  <script type="text/javascript">
+    user = {{user.is_authenticated|yesno:"true,false"}}
+  </script>
 </head>
 
 <body>
