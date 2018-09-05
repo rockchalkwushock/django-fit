@@ -9,7 +9,12 @@ export default {
       datasets: [
         {
           label: 'calories burned',
-          backgroundColor: '#f87979',
+          backgroundColor: [
+            '#f87979',
+            '#fAF979',
+            '#f87909',
+            '#f00229'
+          ],
           data: this.hrData
         }
       ]

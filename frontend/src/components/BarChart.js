@@ -2,7 +2,7 @@ import { Bar } from 'vue-chartjs'
 
 export default {
   extends: Bar,
-  props: ['color', 'data', 'labels', 'units'],
+  props: ['color', 'data', 'labels', 'title', 'units'],
   mounted: function() {
     this.renderChart({
       labels: this.labels,
@@ -13,6 +13,12 @@ export default {
           backgroundColor: this.color
         }
       ]
+    }, {
+      title: {
+        display: true,
+        fontSize: 16,
+        text: this.title
+      }
     })
   }
 }
