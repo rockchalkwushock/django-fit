@@ -129,7 +129,7 @@ def get_profile(request):
             social.refresh_token(strategy)
     data = {
         'age': response['user']['age'],
-        'avatar': response['user']['avatar'],
+        'avatar': response['user']['avatar150'],
         'distance_unit': response['user']['distanceUnit'],
         'full_name': response['user']['fullName'],
         'height': response['user']['height'],
