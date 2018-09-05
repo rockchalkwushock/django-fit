@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import generics, viewsets
 from requests import get
 from json import dumps
+from social_django.utils import load_strategy
 from django.http import HttpResponse
 from datetime import datetime, timedelta
 
@@ -21,8 +22,9 @@ def get_today(request):
         'authorization': f'Bearer {token}'
     })
     response = r.json()
-    if response['errors'][0]['message'] == 'Too Many Requests':
-        return HttpResponse(content='Too Many Requests')
+    if response.get('errors', None):
+        if response['errors'][0]['message'] == 'Too Many Requests':
+            return HttpResponse(content='Too Many Requests')
     if response['summary'].get('heartRateZones', None):
         data = {
             'calories_out': response['summary']['caloriesOut'],
@@ -89,8 +91,9 @@ def get_last_week(request):
             'authorization': f'Bearer {token}'
         })
         response = r.json()
-        if response['errors'][0]['message'] == 'Too Many Requests':
-            return HttpResponse(content='Too Many Requests')
+        if response.get('errors', None):
+            if response['errors'][0]['message'] == 'Too Many Requests':
+                return HttpResponse(content='Too Many Requests')
         calories.append(response['summary']['caloriesOut'])
         distance.append(response['summary']['distances'][0]['distance'])
         floors.append(response['summary']['floors'])
@@ -118,8 +121,12 @@ def get_profile(request):
         'authorization': f'Bearer {token}'
     })
     response = r.json()
-    if response['errors'][0]['message'] == 'Too Many Requests':
-        return HttpResponse(content='Too Many Requests')
+    if response.get('errors', None):
+        if response['errors'][0]['message'] == 'Too Many Requests':
+            return HttpResponse(content='Too Many Requests')
+        elif response['errors'][0]['errorType'] == 'expired_token':
+            strategy = load_strategy()
+            social.refresh_token(strategy)
     data = {
         'age': response['user']['age'],
         'avatar': response['user']['avatar'],
