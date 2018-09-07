@@ -8,18 +8,23 @@
         <p v-else>{{user.height}}in {{user.weight}}lbs</p>
       </div>
     </div>
-    <div class="box steps">{{steps}} steps</div>
-    <div class="box floors">{{floors}} floors</div>
-    <div class="box calories">{{calories}} calories</div>
-    <div v-if="units === 'METRIC'" class="box distance">{{distance}} km</div>
-    <div v-else class="box distance">{{distance}} mi</div>
+    <div v-if="loading">
+      <div class="box steps">{{steps}} steps</div>
+      <div class="box floors">{{floors}} floors</div>
+      <div class="box calories">{{calories}} calories</div>
+      <div v-if="units === 'METRIC'" class="box distance">{{distance}} km</div>
+      <div v-else class="box distance">{{distance}} mi</div>
+    </div>
+    <div class="message">
+      <h1>Please sync your device</h1>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Dash',
-  props: ['calories', 'distance', 'floors', 'steps', 'units', 'user']
+  props: ['calories', 'distance', 'floors', 'loading', 'steps', 'units', 'user']
 }
 </script>
 
@@ -30,7 +35,8 @@ export default {
   grid-template-areas:
     'user user'
     'steps calories'
-    'floors distance';
+    'floors distance'
+    'message message';
   padding: 1rem;
 }
 .box {
@@ -63,5 +69,8 @@ img {
 }
 p {
   font-size: 1.2rem;
+}
+.message {
+  grid-area: message;
 }
 </style>
