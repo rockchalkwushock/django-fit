@@ -2,6 +2,11 @@
   <footer>
     <p v-if="date > 2018">© 2018 - {{date}} Cody Brunner</p>
     <p v-else>© {{date}} Cody Brunner</p>
+    <p class="meta">Built with
+      <img src="../assets/logo.png" alt="VueJS">
+      and
+      <img src="../assets/django.png" alt="Django">
+    </p>
   </footer>
 </template>
 
@@ -22,5 +27,13 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.meta {
+  align-items: center;
+  display: flex;
+  margin: 0;
+}
+.meta img {
+  height: 40px;
 }
 </style>
