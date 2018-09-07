@@ -18,6 +18,12 @@ export default {
           data: this.hrData
         }
       ]
+    }, {
+      title: {
+        display: true,
+        fontSize: 16,
+        text: 'Calories burned by HR Zone'
+      }
     })
   }
 }
