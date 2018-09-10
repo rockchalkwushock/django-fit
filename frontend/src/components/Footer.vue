@@ -4,8 +4,6 @@
     <p v-else>© {{date}} Cody Brunner</p>
     <p class="meta">Built with
       <img src="../assets/logo.png" alt="VueJS">
-      and
-      <img src="../assets/django.png" alt="Django">
     </p>
   </footer>
 </template>
