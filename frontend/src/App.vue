@@ -70,8 +70,7 @@ import AppHeader from './components/Header'
 import Dash from './components/Dash'
 import Error from './components/Error'
 import Login from './components/Login'
-import HeartRateChart from './components/HeartRateChart'
-import BarChart from './components/BarChart'
+import { BarChart, HeartRateChart } from './components'
 
 export default {
   name: 'App',
@@ -120,7 +119,7 @@ export default {
         .get('/api/get_profile')
         .then(res => {
           if (res.data === 'Too Many Requests') {
-            this.message = 'Fitbit is being gay, try back later'
+            this.message = 'Fitbit is being a pain, try back later'
             this.error = true
           }
           this.units = res.data.distance_unit
@@ -137,9 +136,8 @@ export default {
       axios
         .get('/api/get_today')
         .then(res => {
-          console.log(res.data)
           if (res.data === 'Too Many Requests') {
-            this.message = 'Fitbit is being gay, try back later'
+            this.message = 'Fitbit is being a pain, try back later'
             this.error = true
           }
           if (res.data.heart_rate) {
@@ -154,21 +152,21 @@ export default {
           }
         })
         .catch(error => console.log(error))
-      // axios
-      //   .get('/api/get_last_week')
-      //   .then(res => {
-      //     if (res.data === 'Too Many Requests') {
-      //       this.message = 'Fitbit is being gay, try back later'
-      //       this.error = true
-      //     }
-      //     this.caloriesGraph = res.data.calories
-      //     this.distanceGraph = res.data.distance
-      //     this.floorsGraph = res.data.floors
-      //     this.labels = res.data.labels
-      //     this.stepsGraph = res.data.steps
-      //     this.weekLoading = true
-      //   })
-      //   .catch(error => console.log(error))
+      axios
+        .get('/api/get_last_week')
+        .then(res => {
+          if (res.data === 'Too Many Requests') {
+            this.message = 'Fitbit is being a pain, try back later'
+            this.error = true
+          }
+          this.caloriesGraph = res.data.calories
+          this.distanceGraph = res.data.distance
+          this.floorsGraph = res.data.floors
+          this.labels = res.data.labels
+          this.stepsGraph = res.data.steps
+          this.weekLoading = true
+        })
+        .catch(error => console.log(error))
     } catch (error) {
       throw error
     }
