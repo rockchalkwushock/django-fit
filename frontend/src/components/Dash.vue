@@ -1,18 +1,18 @@
 <template>
   <div class="grid">
     <div class="user">
-      <img :src="user.avatar" alt="profile picture">
-      <div class="meta">
+      <img class="animated fadeInLeft" :src="user.avatar" alt="profile picture">
+      <div class="animated fadeInRight meta">
         <p>{{user.name}} {{user.age}}</p>
         <p v-if="user.heightUnit === 'METRIC' && user.weightUnit === 'METRIC'">{{user.height}}cm {{user.weight}}kg</p>
         <p v-else>{{user.height}}in {{user.weight}}lbs</p>
       </div>
     </div>
-    <div class="box steps">{{steps}} steps</div>
-    <div class="box floors">{{floors}} floors</div>
-    <div class="box calories">{{calories}} calories</div>
-    <div v-if="units === 'METRIC'" class="box distance">{{distance}} km</div>
-    <div v-else class="box distance">{{distance}} mi</div>
+    <div class="animated fadeInLeft box steps">{{steps}} steps</div>
+    <div class="animated fadeInLeft box floors">{{floors}} floors</div>
+    <div class="animated fadeInRight box calories">{{calories}} calories</div>
+    <div v-if="units === 'METRIC'" class="animated fadeInRight box distance">{{distance}} km</div>
+    <div v-else class="animated fadeInRight box distance">{{distance}} mi</div>
   </div>
 </template>
 

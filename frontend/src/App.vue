@@ -154,21 +154,21 @@ export default {
           }
         })
         .catch(error => console.log(error))
-      axios
-        .get('/api/get_last_week')
-        .then(res => {
-          if (res.data === 'Too Many Requests') {
-            this.message = 'Fitbit is being gay, try back later'
-            this.error = true
-          }
-          this.caloriesGraph = res.data.calories
-          this.distanceGraph = res.data.distance
-          this.floorsGraph = res.data.floors
-          this.labels = res.data.labels
-          this.stepsGraph = res.data.steps
-          this.weekLoading = true
-        })
-        .catch(error => console.log(error))
+      // axios
+      //   .get('/api/get_last_week')
+      //   .then(res => {
+      //     if (res.data === 'Too Many Requests') {
+      //       this.message = 'Fitbit is being gay, try back later'
+      //       this.error = true
+      //     }
+      //     this.caloriesGraph = res.data.calories
+      //     this.distanceGraph = res.data.distance
+      //     this.floorsGraph = res.data.floors
+      //     this.labels = res.data.labels
+      //     this.stepsGraph = res.data.steps
+      //     this.weekLoading = true
+      //   })
+      //   .catch(error => console.log(error))
     } catch (error) {
       throw error
     }
