@@ -4,7 +4,7 @@
     <div v-if="error" class="main">
       <error :msg="message" />
     </div>
-    <div v-else-if="user" class="main">
+    <div v-else-if="userLoading" class="main">
       <dash
         :calories="calories"
         :distance="distance"
@@ -55,7 +55,8 @@
       </div>
     </div>
     <div v-else class="main">
-      <login />
+      <h2 class="shameless-plug">Welcome to Django Fit, a prettier alternative to seeing your Fitbit data! Written in Django 2.0, Vue 2.5, and ChartsJS.</h2>
+      <login class="animated pulse" />
     </div>
     <app-footer />
   </div>
@@ -101,16 +102,8 @@ export default {
       stepsGraph: null,
       weekLoading: false,
       units: '',
-      user: {
-        age: null,
-        avatar: null,
-        height: null,
-        heightUnit: '',
-        name: null,
-        username: null,
-        weight: null,
-        weightUnit: ''
-      }
+      user: {},
+      userLoading: false
     }
   },
   mounted: function() {
@@ -131,6 +124,7 @@ export default {
           this.user.username = res.data.username
           this.user.weight = res.data.weight
           this.user.weightUnit = res.data.weight_unit
+          this.userLoading = true
         })
         .catch(error => console.log(error))
       axios
@@ -189,5 +183,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   min-height: 60vh;
+}
+.shameless-plug {
+  padding-bottom: 2rem;
+  width: 50%;
 }
 </style>
