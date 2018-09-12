@@ -1,4 +1,4 @@
-# django-fit
+# [django-fit](http://rockchalkwushock.pythonanywhere.com/)
 
 PDX Code Guild Capstone Project - Fitbit Dashboard
 
