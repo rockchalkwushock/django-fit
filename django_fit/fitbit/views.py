@@ -16,34 +16,32 @@ def get_today(request):
     if response.get('errors', None):
         if response['errors'][0]['message'] == 'Too Many Requests':
             return HttpResponse(content='Too Many Requests')
-    if response['summary'].get('heartRateZones', None):
-        data = {
-            'calories_out': response['summary']['caloriesOut'],
-            'distance': response['summary']['distances'][0]['distance'],
-            'floors': response['summary']['floors'],
-            'heart_rate': [
-                {
-                    'calories_out': round(response['summary']['heartRateZones'][0]['caloriesOut'], 0),
-                },
-                {
-                    'calories_out': round(response['summary']['heartRateZones'][1]['caloriesOut'], 0),
-                },
-                {
-                    'calories_out': round(response['summary']['heartRateZones'][2]['caloriesOut'], 0),
-                },
-                {
-                    'calories_out': round(response['summary']['heartRateZones'][3]['caloriesOut'], 0),
-                }
-            ],
-            'steps': response['summary']['steps']
-        }
+
+    data = {
+        'calories_out': response['summary']['caloriesOut'],
+        'distance': response['summary']['distances'][0]['distance'],
+        'steps': response['summary']['steps']
+    }
+
+    if response['summary'].get('floors', None):
+        data['floors'] = response['summary']['floors']
     else:
-        data = {
-            'calories_out': response['summary']['caloriesOut'],
-            'distance': response['summary']['distances'][0]['distance'],
-            'floors': response['summary']['floors'],
-            'steps': response['summary']['steps']
-        }
+        data['floors'] = 'N/A'
+    if response['summary'].get('heartRateZones', None):
+        data['heart_rate'] = [
+            {
+                'calories_out': round(response['summary']['heartRateZones'][0]['caloriesOut'], 0),
+            },
+            {
+                'calories_out': round(response['summary']['heartRateZones'][1]['caloriesOut'], 0),
+            },
+            {
+                'calories_out': round(response['summary']['heartRateZones'][2]['caloriesOut'], 0),
+            },
+            {
+                'calories_out': round(response['summary']['heartRateZones'][3]['caloriesOut'], 0),
+            }
+        ]
 
     return HttpResponse(content=dumps(data))
 
@@ -69,7 +67,8 @@ def get_last_week(request):
                 return HttpResponse(content='Too Many Requests')
         calories.append(response['summary']['caloriesOut'])
         distance.append(response['summary']['distances'][0]['distance'])
-        floors.append(response['summary']['floors'])
+        if response['summary'].get('floors', None):
+            floors.append(response['summary']['floors'])
         labels.append(f'{time.year}-{time.month}-{time.day}')
         steps.append(response['summary']['steps'])
     calories.reverse()
