@@ -13,7 +13,7 @@
         :units="units"
         :user="user"
       />
-      <heart-rate-chart v-if="hrLoading" :hr-data="hrData" />
+      <heart-rate-chart v-if="hrData.length > 0" :hr-data="hrData" />
       <bar-chart
         v-if="weekLoading"
         :color="'#2AAe50'"
@@ -118,12 +118,19 @@ export default {
           this.units = res.data.distance_unit
           this.user.age = res.data.age
           this.user.avatar = res.data.avatar
-          this.user.height = res.data.height
           this.user.heightUnit = res.data.height_unit
           this.user.name = res.data.full_name
-          this.user.username = res.data.username
-          this.user.weight = res.data.weight
           this.user.weightUnit = res.data.weight_unit
+          if (this.user.heightUnit === 'en_US') {
+            this.user.height = Math.round(res.data.height * 0.393701)
+          } else if (this.user.heightUnit === 'METRIC') {
+            this.user.height = res.data.height
+          }
+          if (this.user.weightUnit === 'en_US') {
+            this.user.weight = Math.round(res.data.weight * 2.20462)
+          } else if (this.user.weightUnit === 'METRIC') {
+            this.user.weight = res.data.weight
+          }
           this.userLoading = true
         })
         .catch(error => console.log(error))
@@ -134,16 +141,21 @@ export default {
             this.message = 'Fitbit is being a pain, try back later'
             this.error = true
           }
+          // Data only seems to exist for Fitbit Blaze.
           if (res.data.heart_rate) {
             res.data.heart_rate.map(hr => {
               this.hrData.push(hr.calories_out)
             })
+          }
             this.calories = res.data.calories_out
-            this.distance = res.data.distance
             this.floors = res.data.floors
             this.steps = res.data.steps
+            if (this.units === 'en_US') {
+              this.distance = Math.round(res.data.distance * 0.621371)
+            } else if (this.units === 'METRIC') {
+              this.distance = res.data.distance
+            }
             this.hrLoading = true
-          }
         })
         .catch(error => console.log(error))
       axios
