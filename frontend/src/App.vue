@@ -31,7 +31,7 @@
         :units="'kilometers'"
       />
       <bar-chart
-        v-if="weekLoading"
+        v-if="weekLoading && floorsGraph.length > 0"
         :color="'#2c3550'"
         :data="floorsGraph"
         :labels="labels"
