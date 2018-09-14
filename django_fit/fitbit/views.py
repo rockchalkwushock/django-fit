@@ -105,10 +105,9 @@ def get_profile(request):
         'avatar': response['user']['avatar150'],
         'distance_unit': response['user']['distanceUnit'],
         'full_name': response['user']['fullName'],
-        'height': response['user']['height'],
+        'height': round(response['user']['height'], 0),
         'height_unit': response['user']['heightUnit'],
-        'username': response['user']['username'],
-        'weight': response['user']['weight'],
+        'weight': round(response['user']['weight'], 0),
         'weight_unit': response['user']['weightUnit'],
     }
     return HttpResponse(content=dumps(data))
